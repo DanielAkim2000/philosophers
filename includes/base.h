@@ -6,7 +6,7 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 14:14:50 by demane            #+#    #+#             */
-/*   Updated: 2026/02/06 15:59:28 by demane           ###   ########.fr       */
+/*   Updated: 2026/02/07 18:02:19 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <pthread.h>
+# include <sys/time.h>
+
+typedef struct timeval	t_timeval;
 
 typedef struct s_rules
 {
@@ -25,6 +28,7 @@ typedef struct s_rules
 	long			t_sleep;
 	int				nb_meals;
 	int				is_dead;
+	long			start_time;
 	pthread_mutex_t	print;
 	pthread_mutex_t	death;
 }	t_rules;

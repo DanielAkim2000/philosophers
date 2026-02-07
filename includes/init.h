@@ -6,7 +6,7 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 16:12:26 by demane            #+#    #+#             */
-/*   Updated: 2026/02/06 16:25:30 by demane           ###   ########.fr       */
+/*   Updated: 2026/02/07 17:26:04 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define INIT_H
 
 # include "base.h"
+# include "utils.h"
 
 int				ft_init_rules_mutex(t_rules *rules);
 pthread_mutex_t	*ft_init_forks(t_rules *rules);

@@ -6,7 +6,7 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 18:07:42 by demane            #+#    #+#             */
-/*   Updated: 2026/02/06 18:17:27 by demane           ###   ########.fr       */
+/*   Updated: 2026/02/07 17:12:23 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,5 @@ int	main(int ac, char **av)
 		return (1);
 	ft_print_rules(rules);
 	ft_init_rules_mutex(rules);
-	ft_init_rules_mutex(rules);
+	//ft_init_rules_mutex(rules);
 }
