@@ -6,7 +6,7 @@
 #    By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/02 18:07:17 by demane            #+#    #+#              #
-#    Updated: 2026/02/06 15:50:54 by demane           ###   ########.fr        #
+#    Updated: 2026/02/08 01:02:01 by demane           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,17 +18,26 @@ DIR_SRCS = srcs
 DIR_OBJS = objs
 DIR_PARSING = parsing
 DIR_UTILS = utils
+DIR_MONITOR = monitor
+DIR_INIT = init
+DIR_ROUTINE = routine
 
 FILES_PARSING = parsing.c ft_atoil.c
-FILES_UTILS = utils.c
+FILES_UTILS = utils.c time.c
 FILES_MAIN = main.c
+FILES_MONITOR = monitor.c
+FILES_INIT = init_mutex.c
+FILES_ROUTINE = routine.c philo.c
 
 
 SRCS_PARSING = $(addprefix $(DIR_SRCS)/$(DIR_PARSING)/, $(FILES_PARSING))
 SRCS_UTILS = $(addprefix $(DIR_SRCS)/$(DIR_UTILS)/, $(FILES_UTILS))
+SRCS_MONITOR = $(addprefix $(DIR_SRCS)/$(DIR_MONITOR)/, $(FILES_MONITOR))
+SRCS_ROUTINE = $(addprefix $(DIR_SRCS)/$(DIR_ROUTINE)/, $(FILES_ROUTINE))
+SRCS_INIT = $(addprefix $(DIR_SRCS)/$(DIR_INIT)/, $(FILES_INIT))
 SRCS_MAIN = $(addprefix $(DIR_SRCS)/, $(FILES_MAIN))
 
-SRCS = $(SRCS_PARSING) $(SRCS_UTILS) $(SRCS_MAIN)
+SRCS = $(SRCS_PARSING) $(SRCS_UTILS) $(SRCS_MONITOR) $(SRCS_INIT) $(SRCS_ROUTINE) $(SRCS_MAIN)
 
 OBJS = $(SRCS:$(DIR_SRCS)/%.c=$(DIR_OBJS)/%.o)
 

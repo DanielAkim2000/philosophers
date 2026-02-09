@@ -6,7 +6,7 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 11:25:57 by demane            #+#    #+#             */
-/*   Updated: 2026/02/07 17:58:14 by demane           ###   ########.fr       */
+/*   Updated: 2026/02/08 00:21:28 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,20 @@ void	ft_free(void **addr_ptr)
 	if (addr_ptr && *addr_ptr)
 	{
 		free(*addr_ptr);
+		*addr_ptr = NULL;
 	}
-	*addr_ptr = NULL;
 }
 
-long	ft_gettime(void)
+void	ft_safe_print(t_philo *p, char *msg)
 {
-	t_timeval	tv;
-	long		time;
+	long	time;
 
-	if (gettimeofday(&tv, NULL) == -1)
-		return (-1);
-	time = tv.tv_sec * 1000 + tv.tv_usec / 1000;
-	return (time);
+	pthread_mutex_lock(&p->rules->print);
+	if (!p->rules->is_dead)
+	{
+		time = ft_gettime() - p->rules->start_time;
+		printf("%ld %d %s\n", time, p->id, msg);
+	}
+	pthread_mutex_unlock(&p->rules->print);
 }
+

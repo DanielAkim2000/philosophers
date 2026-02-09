@@ -6,13 +6,14 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 14:14:50 by demane            #+#    #+#             */
-/*   Updated: 2026/02/07 18:02:19 by demane           ###   ########.fr       */
+/*   Updated: 2026/02/08 01:21:54 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BASE_H
 # define BASE_H
 
+# include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
 # include <pthread.h>
@@ -31,6 +32,7 @@ typedef struct s_rules
 	long			start_time;
 	pthread_mutex_t	print;
 	pthread_mutex_t	death;
+	pthread_mutex_t	meal;
 }	t_rules;
 
 typedef struct s_philo
@@ -42,6 +44,7 @@ typedef struct s_philo
 	pthread_mutex_t	*left_fork; // fourchette gauche du philo // mutex fourchette
 	pthread_mutex_t	*right_fork; // foruchette droite du philo // mutex fourchette
 	t_rules			*rules; // acces gloabl au rules;
+	int				is_full;
 }	t_philo;
 
 #endif

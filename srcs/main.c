@@ -6,28 +6,60 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 18:07:42 by demane            #+#    #+#             */
-/*   Updated: 2026/02/07 17:12:23 by demane           ###   ########.fr       */
+/*   Updated: 2026/02/08 01:04:05 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philosophers.h"
 
-static void	ft_print_rules(t_rules *rule)
+static int	ft_start_simulation(t_philo *philos)
 {
-	printf("nb_philo = %d\ntime_to_die = %ld\n, time_to_eat = %ld\n\
-time_to_sleep = %ld\nnumber_of_times_each_philosopher_must_eat = %d\n"\
-, rule->nb_philo, rule->t_die, rule->t_eat, rule->t_sleep, rule->nb_meals);
+	int	i;
+
+	i = 0;
+	while (i < philos[0].rules->nb_philo)
+	{
+		philos[i].last_meal = ft_gettime();
+		if (pthread_create(&philos[i].thread, NULL,
+				ft_routine, &philos[i]))
+			return (1);
+		i++;
+	}
+	return (0);
 }
+
 
 int	main(int ac, char **av)
 {
-	t_rules	*rules;
-	t_philo	*philos;
+	t_rules			*rules;
+	t_philo			*philos;
+	pthread_mutex_t	*forks;
 
 	rules = ft_parse_arg(ac, av);
 	if (!rules)
 		return (1);
-	ft_print_rules(rules);
-	ft_init_rules_mutex(rules);
-	//ft_init_rules_mutex(rules);
+	if (ft_init_rules_mutex(rules))
+		return (1);
+	forks = ft_init_forks(rules);
+	if (!forks)
+		return (1);
+	philos = ft_init_philos(rules, forks);
+	if (!philos)
+		return (1);
+	ft_start_simulation(philos);
+	ft_monitor(philos);
+	int i = 0;
+	while (i < rules->nb_philo)
+	{
+		pthread_join(philos[i].thread, NULL);
+		i++;
+	}
+	pthread_mutex_destroy(&rules->print);
+	pthread_mutex_destroy(&rules->meal);
+	pthread_mutex_destroy(&rules->death);
+	for (i = 0; i < rules->nb_philo; i++)
+		pthread_mutex_destroy(&forks[i]);
+	ft_free((void **)&forks);
+	ft_free((void **)&philos);
+	ft_free((void **)&rules);
 }
