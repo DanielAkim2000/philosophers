@@ -6,7 +6,7 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/08 00:35:22 by demane            #+#    #+#             */
-/*   Updated: 2026/02/08 13:44:00 by demane           ###   ########.fr       */
+/*   Updated: 2026/02/10 09:31:12 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,22 +35,23 @@ void	ft_monitor(t_philo *philos)
 				if (!rules->is_dead)
 				{
 					rules->is_dead = 1;
+					pthread_mutex_unlock(&rules->death);
 					pthread_mutex_lock(&rules->print);
 					printf("%ld %d died\n",
 						now - rules->start_time,
 						philos[i].id);
 					pthread_mutex_unlock(&rules->print);
 				}
-				pthread_mutex_unlock(&rules->death);
+				pthread_mutex_unlo k(&rules->death);
 				return ;
 			}
 			if (rules->nb_meals > 0 && philos[i].is_full)
 				nb_full++;
-			pthread_mutex_unlock(&rules->meal);
+			pthread_mutex_unlock(&rules->meal);`
 			i++;
 		}
 		if (rules->nb_meals > 0 && nb_full == rules->nb_philo)
 			return ;
-		usleep(300);
+		usleep(500);
 	}
 }

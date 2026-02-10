@@ -6,7 +6,7 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 11:32:14 by demane            #+#    #+#             */
-/*   Updated: 2026/02/07 18:02:48 by demane           ###   ########.fr       */
+/*   Updated: 2026/02/09 13:12:19 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,5 @@ t_rules	*ft_parse_arg(int ac, char **av)
 	}
 	else
 		rules->nb_meals = -1;
-	rules->start_time = ft_gettime();
 	return (rules);
 }

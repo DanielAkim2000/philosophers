@@ -6,7 +6,7 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 11:25:57 by demane            #+#    #+#             */
-/*   Updated: 2026/02/08 00:21:28 by demane           ###   ########.fr       */
+/*   Updated: 2026/02/09 13:13:21 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,13 @@ void	ft_safe_print(t_philo *p, char *msg)
 	long	time;
 
 	pthread_mutex_lock(&p->rules->print);
+	pthread_mutex_lock(&p->rules->death);
 	if (!p->rules->is_dead)
 	{
 		time = ft_gettime() - p->rules->start_time;
 		printf("%ld %d %s\n", time, p->id, msg);
 	}
+	pthread_mutex_unlock(&p->rules->death);
 	pthread_mutex_unlock(&p->rules->print);
 }
 

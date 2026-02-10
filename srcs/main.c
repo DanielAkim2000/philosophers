@@ -6,7 +6,7 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 18:07:42 by demane            #+#    #+#             */
-/*   Updated: 2026/02/08 01:04:05 by demane           ###   ########.fr       */
+/*   Updated: 2026/02/09 13:24:01 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	ft_start_simulation(t_philo *philos)
 	i = 0;
 	while (i < philos[0].rules->nb_philo)
 	{
-		philos[i].last_meal = ft_gettime();
+		philos[i].last_meal = philos[i].rules->start_time;
 		if (pthread_create(&philos[i].thread, NULL,
 				ft_routine, &philos[i]))
 			return (1);
@@ -46,6 +46,7 @@ int	main(int ac, char **av)
 	philos = ft_init_philos(rules, forks);
 	if (!philos)
 		return (1);
+	rules->start_time = ft_gettime();
 	ft_start_simulation(philos);
 	ft_monitor(philos);
 	int i = 0;

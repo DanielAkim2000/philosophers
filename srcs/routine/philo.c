@@ -6,7 +6,7 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 23:52:31 by demane            #+#    #+#             */
-/*   Updated: 2026/02/08 02:31:57 by demane           ###   ########.fr       */
+/*   Updated: 2026/02/09 13:49:44 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,13 @@ void	ft_process_philo_odd(t_philo *p)
 
 void	ft_sleep_philo(t_philo *p)
 {
+	pthread_mutex_lock(&p->rules->death);
 	if (p->rules->is_dead)
+	{
+		pthread_mutex_unlock(&p->rules->death);
 		return ;
+	}
+	pthread_mutex_unlock(&p->rules->death);
 	ft_safe_print(p, "is sleeping");
 	ft_usleep(p->rules->t_sleep, p);
 }
