@@ -6,62 +6,30 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 23:40:32 by demane            #+#    #+#             */
-/*   Updated: 2026/02/09 13:59:45 by demane           ###   ########.fr       */
+/*   Updated: 2026/02/10 15:47:06 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/routine.h"
 
-void	ft_take_forks(t_philo *p)
+static void	ft_routine_gap(t_philo *p)
 {
-	if (p->rules->nb_philo == 1)
-		ft_process_philo_one(p);
-	else if (p->id % 2 == 0)
-		ft_process_philo_peer(p);
-	else
-		ft_process_philo_odd(p);
-	pthread_mutex_lock(&p->rules->meal);
-	p->last_meal = ft_gettime();
-	pthread_mutex_unlock(&p->rules->meal);
-}
-
-
-void	ft_eat(t_philo *p)
-{
-	pthread_mutex_lock(&p->rules->meal);
-	p->meals_eaten++;
-	if (p->rules->nb_meals > 0 && p->meals_eaten >= p->rules->nb_meals)
-		p->is_full = 1;
-	pthread_mutex_unlock(&p->rules->meal);
-	ft_safe_print(p, "is eating");
-	ft_usleep(p->rules->t_eat, p);
-}
-
-void	ft_put_forks(t_philo *p)
-{
-	pthread_mutex_unlock(p->left_fork);
-	pthread_mutex_unlock(p->right_fork);
-}
-
-void	ft_think(t_philo *p)
-{
-	pthread_mutex_lock(&p->rules->death);
-	if (p->rules->is_dead)
+	if (p->rules->nb_philo % 2 == 0)
 	{
-		pthread_mutex_unlock(&p->rules->death);
-		return ;
+		if (p->id % 2 != 0)
+			usleep(1000);
 	}
-	pthread_mutex_unlock(&p->rules->death);
-	ft_safe_print(p, "is thinking");
+	else
+	{
+		if (p->id == p->rules->nb_philo)
+			usleep(p->rules->t_eat * 1000);
+		else if (p->id % 2 != 0)
+			usleep(1000);
+	}
 }
 
-void	*ft_routine(void *arg)
+static void	ft_process_routine(t_philo *p)
 {
-	t_philo	*p;
-
-	p = (t_philo *)arg;
-	if (p->id % 2 != 0)
-		usleep(500);
 	while (1)
 	{
 		pthread_mutex_lock(&p->rules->death);
@@ -79,11 +47,21 @@ void	*ft_routine(void *arg)
 		}
 		pthread_mutex_unlock(&p->rules->meal);
 		ft_take_forks(p);
+		if (p->rules->nb_philo == 1)
+			break ;
 		ft_eat(p);
 		ft_put_forks(p);
 		ft_sleep_philo(p);
 		ft_think(p);
 	}
-	return (NULL);
 }
 
+void	*ft_routine(void *arg)
+{
+	t_philo	*p;
+
+	p = (t_philo *)arg;
+	ft_routine_gap(p);
+	ft_process_routine(p);
+	return (NULL);
+}

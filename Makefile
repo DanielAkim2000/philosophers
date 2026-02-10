@@ -6,7 +6,7 @@
 #    By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/02 18:07:17 by demane            #+#    #+#              #
-#    Updated: 2026/02/08 01:02:01 by demane           ###   ########.fr        #
+#    Updated: 2026/02/10 15:36:29 by demane           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,8 +27,7 @@ FILES_UTILS = utils.c time.c
 FILES_MAIN = main.c
 FILES_MONITOR = monitor.c
 FILES_INIT = init_mutex.c
-FILES_ROUTINE = routine.c philo.c
-
+FILES_ROUTINE = routine.c philo.c forks.c eat.c
 
 SRCS_PARSING = $(addprefix $(DIR_SRCS)/$(DIR_PARSING)/, $(FILES_PARSING))
 SRCS_UTILS = $(addprefix $(DIR_SRCS)/$(DIR_UTILS)/, $(FILES_UTILS))

@@ -6,10 +6,9 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 16:06:47 by demane            #+#    #+#             */
-/*   Updated: 2026/02/09 13:12:02 by demane           ###   ########.fr       */
+/*   Updated: 2026/02/10 18:46:19 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../includes/init.h"
 
@@ -18,12 +17,12 @@ int	ft_init_rules_mutex(t_rules *rules)
 	if (pthread_mutex_init(&rules->print, NULL))
 		return (1);
 	if (pthread_mutex_init(&rules->death, NULL))
-		return (1);
+		return (pthread_mutex_destroy(&rules->print), 1);
 	if (pthread_mutex_init(&rules->meal, NULL))
-		return (1);
+		return (pthread_mutex_destroy(&rules->print),
+			pthread_mutex_destroy(&rules->death), 1);
 	return (0);
 }
-
 
 pthread_mutex_t	*ft_init_forks(t_rules *rules)
 {
@@ -63,6 +62,7 @@ t_philo	*ft_init_philos(t_rules *rules, pthread_mutex_t *forks)
 		right_index = (i + 1) % rules->nb_philo;
 		philos[i].right_fork = &forks[right_index];
 		philos[i].is_full = 0;
+		philos[i].last_meal = 0;
 	}
 	return (philos);
 }

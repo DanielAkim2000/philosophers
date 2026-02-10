@@ -6,7 +6,7 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 11:25:57 by demane            #+#    #+#             */
-/*   Updated: 2026/02/09 13:13:21 by demane           ###   ########.fr       */
+/*   Updated: 2026/02/10 15:46:38 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,3 @@ void	ft_safe_print(t_philo *p, char *msg)
 	pthread_mutex_unlock(&p->rules->death);
 	pthread_mutex_unlock(&p->rules->print);
 }
-

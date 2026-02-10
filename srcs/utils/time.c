@@ -6,7 +6,7 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 23:44:40 by demane            #+#    #+#             */
-/*   Updated: 2026/02/09 13:28:56 by demane           ###   ########.fr       */
+/*   Updated: 2026/02/10 15:46:32 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ void	ft_usleep(long t_ms, t_philo *p)
 			return ;
 		}
 		pthread_mutex_unlock(&p->rules->death);
-
 		pthread_mutex_lock(&p->rules->meal);
 		if (p->is_full)
 		{
@@ -50,4 +49,3 @@ void	ft_usleep(long t_ms, t_philo *p)
 		usleep(1000);
 	}
 }
-
