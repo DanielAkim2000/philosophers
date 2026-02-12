@@ -6,7 +6,7 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 18:07:42 by demane            #+#    #+#             */
-/*   Updated: 2026/02/10 15:41:21 by demane           ###   ########.fr       */
+/*   Updated: 2026/02/11 13:11:31 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	ft_start_simulation(t_philo *philos)
 	i = 0;
 	while (i < philos[0].rules->nb_philo)
 	{
-		philos[i].last_meal = philos[i].rules->start_time;
+		philos[i].last_meal = 0;
 		if (pthread_create(&philos[i].thread, NULL,
 				ft_routine, &philos[i]))
 			return (1);
@@ -52,6 +52,14 @@ void	ft_destroy(t_rules *rules, pthread_mutex_t	*forks)
 	}
 }
 
+static void	ft_clean(t_rules *rules, pthread_mutex_t *forks, t_philo *p)
+{
+	ft_destroy(rules, forks);
+	ft_free((void **)&forks);
+	ft_free((void **)&p);
+	ft_free((void **)&rules);
+}
+
 int	main(int ac, char **av)
 {
 	t_rules			*rules;
@@ -70,12 +78,10 @@ int	main(int ac, char **av)
 	if (!philos)
 		return (ft_destroy(rules, forks), ft_free((void **)&rules),
 			ft_free((void **)&forks), 1);
-	rules->start_time = ft_gettime();
-	ft_start_simulation(philos);
-	ft_monitor(philos);
-	ft_join_thread(rules, philos);
-	ft_destroy(rules, forks);
-	ft_free((void **)&forks);
-	ft_free((void **)&philos);
-	ft_free((void **)&rules);
+	if (!ft_start_simulation(philos))
+	{
+		ft_monitor(philos);
+		ft_join_thread(rules, philos);
+	}
+	ft_clean(rules, forks, philos);
 }

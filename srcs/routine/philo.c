@@ -6,7 +6,7 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 23:52:31 by demane            #+#    #+#             */
-/*   Updated: 2026/02/10 15:25:33 by demane           ###   ########.fr       */
+/*   Updated: 2026/02/12 18:09:45 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,12 +63,14 @@ void	ft_think(t_philo *p)
 	ft_safe_print(p, "is thinking");
 	if (p->rules->nb_philo % 2 != 0)
 	{
+		// think_time = (p->rules->t_die - (p->rules->t_eat
+		// + p->rules->t_sleep));
 		think_time = (p->rules->t_eat * 2) - p->rules->t_sleep;
 		if (think_time < 0)
 			think_time = 0;
 		if (think_time > 600)
 			think_time = 200;
 		if (think_time > 0)
-			usleep(think_time * 1000);
+			usleep(think_time * 500);
 	}
 }

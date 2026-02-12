@@ -6,7 +6,7 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 14:14:50 by demane            #+#    #+#             */
-/*   Updated: 2026/02/10 18:09:45 by demane           ###   ########.fr       */
+/*   Updated: 2026/02/11 10:18:07 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ typedef struct s_rules
 	long			t_sleep;
 	int				nb_meals;
 	int				is_dead;
-	long			start_time;
 	pthread_mutex_t	print;
 	pthread_mutex_t	death;
 	pthread_mutex_t	meal;
@@ -43,6 +42,7 @@ typedef struct s_philo
 	int				meals_eaten;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
+	long			start_time;
 	t_rules			*rules;
 	int				is_full;
 }	t_philo;

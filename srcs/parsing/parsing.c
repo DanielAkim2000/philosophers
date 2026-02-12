@@ -6,7 +6,7 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 11:32:14 by demane            #+#    #+#             */
-/*   Updated: 2026/02/10 18:34:26 by demane           ###   ########.fr       */
+/*   Updated: 2026/02/11 10:19:44 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ static int	fill_rules(t_rules *rules, int ac, char **av)
 	else
 		rules->nb_meals = -1;
 	rules->is_dead = 0;
-	rules->start_time = 0;
 	return (0);
 }
 

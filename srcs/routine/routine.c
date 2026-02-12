@@ -6,7 +6,7 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 23:40:32 by demane            #+#    #+#             */
-/*   Updated: 2026/02/10 15:47:06 by demane           ###   ########.fr       */
+/*   Updated: 2026/02/11 10:23:12 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,10 @@ void	*ft_routine(void *arg)
 	t_philo	*p;
 
 	p = (t_philo *)arg;
+	p->start_time = ft_gettime();
+	pthread_mutex_lock(&p->rules->meal);
+	p->last_meal = p->start_time;
+	pthread_mutex_unlock(&p->rules->meal);
 	ft_routine_gap(p);
 	ft_process_routine(p);
 	return (NULL);
