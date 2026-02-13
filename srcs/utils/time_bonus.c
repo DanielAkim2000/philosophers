@@ -6,7 +6,7 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 18:27:44 by demane            #+#    #+#             */
-/*   Updated: 2026/02/12 18:03:53 by demane           ###   ########.fr       */
+/*   Updated: 2026/02/13 19:44:13 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,11 @@ void	ft_usleep_bonus(long t_ms, t_philo *p)
 {
 	long	start;
 
-	start = ft_gettime();
+	(void)p;
+	start = ft_gettime_bonus();
 	while (1)
 	{
-		if (ft_gettime() - start >= t_ms)
+		if (ft_gettime_bonus() - start >= t_ms)
 			break ;
 		usleep(1000);
 	}

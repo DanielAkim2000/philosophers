@@ -6,7 +6,7 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 17:55:26 by demane            #+#    #+#             */
-/*   Updated: 2026/02/12 17:43:24 by demane           ###   ########.fr       */
+/*   Updated: 2026/02/13 19:41:30 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,12 @@
 # define BASE_BONUS_H
 
 # include <fcntl.h>
+# include <pthread.h>
 # include <semaphore.h>
-# include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/time.h>
+# include <sys/wait.h>
 # include <unistd.h>
 
 typedef struct timeval	t_timeval;
@@ -45,7 +46,6 @@ typedef struct s_philo
 	int					meals_eaten;
 	t_rules				*rules;
 	int					is_full;
-	long				start_time;
 	pid_t				pid;
 }						t_philo;
 

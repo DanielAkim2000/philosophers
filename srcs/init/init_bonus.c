@@ -6,7 +6,7 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 18:20:51 by demane            #+#    #+#             */
-/*   Updated: 2026/02/10 18:59:15 by demane           ###   ########.fr       */
+/*   Updated: 2026/02/13 19:45:34 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ int	ft_init_rules_sem(t_rules *rules)
 	return (0);
 }
 
-
 t_philo	*ft_init_philos_bonus(t_rules *rules)
 {
 	int		i;
@@ -65,6 +64,6 @@ t_philo	*ft_init_philos_bonus(t_rules *rules)
 		philos[i].meals_eaten = 0;
 		philos[i].rules = rules;
 		philos[i].is_full = 0;
-		philos[i].last_meal = 0;
 	}
+	return (philos);
 }

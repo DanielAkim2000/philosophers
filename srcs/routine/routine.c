@@ -6,7 +6,7 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/07 23:40:32 by demane            #+#    #+#             */
-/*   Updated: 2026/02/11 10:23:12 by demane           ###   ########.fr       */
+/*   Updated: 2026/02/13 17:13:36 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ static void	ft_routine_gap(t_philo *p)
 	}
 	else
 	{
-		if (p->id == p->rules->nb_philo)
-			usleep(p->rules->t_eat * 1000);
-		else if (p->id % 2 != 0)
+		// if (p->id == p->rules->nb_philo)
+		// 	usleep(p->rules->t_eat * 1000);
+		if (p->id % 2 != 0)
 			usleep(1000);
 	}
 }
@@ -61,9 +61,8 @@ void	*ft_routine(void *arg)
 	t_philo	*p;
 
 	p = (t_philo *)arg;
-	p->start_time = ft_gettime();
 	pthread_mutex_lock(&p->rules->meal);
-	p->last_meal = p->start_time;
+	p->last_meal = ft_gettime();
 	pthread_mutex_unlock(&p->rules->meal);
 	ft_routine_gap(p);
 	ft_process_routine(p);

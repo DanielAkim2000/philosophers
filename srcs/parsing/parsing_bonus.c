@@ -6,7 +6,7 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 16:23:38 by demane            #+#    #+#             */
-/*   Updated: 2026/02/12 16:25:44 by demane           ###   ########.fr       */
+/*   Updated: 2026/02/13 19:42:10 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ t_rules	*ft_parse_arg(int ac, char **av)
 		return (NULL);
 	if (fill_rules(rules, ac, av))
 	{
-		ft_free((void **)&rules);
+		ft_free_bonus((void **)&rules);
 		return (NULL);
 	}
 	return (rules);
