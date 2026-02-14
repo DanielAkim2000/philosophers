@@ -6,7 +6,7 @@
 #    By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/02 18:07:17 by demane            #+#    #+#              #
-#    Updated: 2026/02/13 19:40:49 by demane           ###   ########.fr        #
+#    Updated: 2026/02/14 00:12:14 by demane           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -101,12 +101,18 @@ $(DIR_OBJS)/%.o : $(DIR_SRCS)/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 	$(progress_bar)
 
+affiche:
+	cat $(SRCS) >> file.txt
+
+
 clean:
 	$(RM) $(DIR_OBJS)
 
 fclean: clean
-	$(RM) $(NAME)
+	$(RM) $(NAME) $(NAME_BONUS)
 
 re: fclean all
+
+rebonus: fclean bonus
 
 .PHONY: all clean fclean re bonus

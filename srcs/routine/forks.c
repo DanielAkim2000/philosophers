@@ -6,7 +6,7 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 15:25:53 by demane            #+#    #+#             */
-/*   Updated: 2026/02/10 15:28:12 by demane           ###   ########.fr       */
+/*   Updated: 2026/02/14 01:00:50 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,32 @@
 void	ft_take_forks(t_philo *p)
 {
 	if (p->rules->nb_philo == 1)
+	{
 		ft_process_philo_one(p);
-	else if (p->id % 2 == 0)
-		ft_process_philo_peer(p);
+		return ;
+	}
+	if (p->rules->nb_philo % 2 != 0 && p->id == p->rules->nb_philo)
+	{
+		pthread_mutex_lock(p->left_fork);
+		ft_safe_print(p, "has taken a fork");
+		pthread_mutex_lock(p->right_fork);
+		ft_safe_print(p, "has taken a fork");
+		return ;
+	}
+	if (p->id % 2 == 0)
+	{
+		pthread_mutex_lock(p->left_fork);
+		ft_safe_print(p, "has taken a fork");
+		pthread_mutex_lock(p->right_fork);
+		ft_safe_print(p, "has taken a fork");
+	}
 	else
-		ft_process_philo_odd(p);
+	{
+		pthread_mutex_lock(p->right_fork);
+		ft_safe_print(p, "has taken a fork");
+		pthread_mutex_lock(p->left_fork);
+		ft_safe_print(p, "has taken a fork");
+	}
 }
 
 void	ft_put_forks(t_philo *p)
