@@ -6,7 +6,7 @@
 #    By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/02 18:07:17 by demane            #+#    #+#              #
-#    Updated: 2026/02/14 00:12:14 by demane           ###   ########.fr        #
+#    Updated: 2026/02/15 14:05:28 by demane           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -104,6 +104,8 @@ $(DIR_OBJS)/%.o : $(DIR_SRCS)/%.c
 affiche:
 	cat $(SRCS) >> file.txt
 
+aff_bonus:
+	cat $(SRCS_BONUS) >> file_bonus.txt
 
 clean:
 	$(RM) $(DIR_OBJS)

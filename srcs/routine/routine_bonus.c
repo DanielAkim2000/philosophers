@@ -6,7 +6,19 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 12:54:12 by demane            #+#    #+#             */
-/*   Updated: 2026/02/13 19:48:45 by demane           ###   ########.fr       */
+/*   Updated: 2026/02/15 14:23:56 by demane           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   routine_bonus.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/12 12:54:12 by demane            #+#    #+#             */
+/*   Updated: 2026/02/15 14:30:00 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +42,15 @@ static void	ft_routine_gap_bonus(t_philo *p)
 
 static void	ft_process_routine_bonus(t_philo *p)
 {
+	/* IMPROVED: Handle single philosopher case early */
+	if (p->rules->nb_philo == 1)
+	{
+		sem_wait(p->rules->forks);
+		ft_safe_print_bonus(p, "has taken a fork");
+		/* Wait for death - watcher will handle it */
+		while (1)
+			usleep(1000);
+	}
 	while (1)
 	{
 		sem_wait(p->rules->death);
@@ -47,8 +68,6 @@ static void	ft_process_routine_bonus(t_philo *p)
 		}
 		sem_post(p->rules->meal);
 		ft_take_forks_bonus(p);
-		if (p->rules->nb_philo == 1)
-			break ;
 		ft_eat_bonus(p);
 		ft_put_forks_bonus(p);
 		ft_sleep_philo_bonus(p);
