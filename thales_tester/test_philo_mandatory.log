@@ -1,4 +1,4 @@
-[33m[+] Given Folder: ..
+[33m[+] Given Folder: ../philo
 [+] Test Type: 1
 [+] In Case of a failed test, please check ./errors_log file for more information(B[m
 
@@ -60,7 +60,7 @@
 [33m[+] Testing philo with 200 60 60 60(B[m
 [32m[+] Test #7 Succeeded ! Only one death occured.(B[m
 [32m[+] Test #7 Succeeded ! Simulation ends after death(B[m
-[32m[+] Test #7 Timestamp is correct with an error of 1 ms(B[m
+[32m[+] Test #7 Timestamp is correct with an error of 0 ms(B[m
 [32m[+] Test #7 Valgrind Test Succeeded !(B[m
 [32m[+] Test #7 Helgrind Test Succeeded !(B[m
 
@@ -76,7 +76,7 @@
 [33m[+] Testing philo with 199 800 300 100(B[m
 [32m[+] Test #9 Succeeded ! Only one death occured.(B[m
 [32m[+] Test #9 Succeeded ! Simulation ends after death(B[m
-[32m[+] Test #9 Timestamp is correct with an error of 1 ms(B[m
+[32m[+] Test #9 Timestamp is correct with an error of 2 ms(B[m
 [32m[+] Test #9 Valgrind Test Succeeded !(B[m
 [32m[+] Test #9 Helgrind Test Succeeded !(B[m
 
@@ -966,44 +966,43 @@
 
 		[32m[============[ CPU Checks ]==============](B[m
 
-[33m CPU usage: 2.00% (B[m
-[33m CPU usage: 2.50% (B[m
-[33m CPU usage: 2.00% (B[m
-[33m CPU usage: 2.20% (B[m
-[33m CPU usage: 2.20% (B[m
-[33m CPU usage: 2.30% (B[m
-[33m CPU usage: 2.20% (B[m
-[33m CPU usage: 2.20% (B[m
-[33m CPU usage: 2.20% (B[m
-[33m CPU usage: 2.20% (B[m
+[33m CPU usage: 0.00% (B[m
+[33m CPU usage: 0.50% (B[m
+[33m CPU usage: 0.60% (B[m
+[33m CPU usage: 0.70% (B[m
+[33m CPU usage: 0.60% (B[m
+[33m CPU usage: 0.70% (B[m
+[33m CPU usage: 0.60% (B[m
+[33m CPU usage: 0.70% (B[m
+[33m CPU usage: 0.80% (B[m
 
-[32m[+] Test #70 Succeeded: Average CPU usage is 2.20% for 2 philos(B[m 
+[32m[+] Test #70 Succeeded: Average CPU usage is 0.58% for 2 philos(B[m 
 
-[33m CPU usage: 7.00% (B[m
-[33m CPU usage: 7.50% (B[m
-[33m CPU usage: 7.60% (B[m
-[33m CPU usage: 8.00% (B[m
-[33m CPU usage: 8.00% (B[m
-[33m CPU usage: 8.10% (B[m
-[33m CPU usage: 8.10% (B[m
-[33m CPU usage: 8.10% (B[m
-[33m CPU usage: 8.10% (B[m
-[33m CPU usage: 8.10% (B[m
+[33m CPU usage: 3.00% (B[m
+[33m CPU usage: 3.00% (B[m
+[33m CPU usage: 3.00% (B[m
+[33m CPU usage: 3.00% (B[m
+[33m CPU usage: 3.00% (B[m
+[33m CPU usage: 3.10% (B[m
+[33m CPU usage: 3.10% (B[m
+[33m CPU usage: 3.10% (B[m
+[33m CPU usage: 3.20% (B[m
+[33m CPU usage: 3.20% (B[m
 
-[32m[+] Test #70 Succeeded: Average CPU usage is 7.86% for 10 philos(B[m 
+[32m[+] Test #70 Succeeded: Average CPU usage is 3.07% for 10 philos(B[m 
 
-[33m CPU usage: 30.00% (B[m
-[33m CPU usage: 30.00% (B[m
-[33m CPU usage: 31.30% (B[m
-[33m CPU usage: 31.20% (B[m
-[33m CPU usage: 32.80% (B[m
-[33m CPU usage: 35.30% (B[m
-[33m CPU usage: 34.80% (B[m
-[33m CPU usage: 36.30% (B[m
-[33m CPU usage: 36.20% (B[m
-[33m CPU usage: 36.40% (B[m
+[33m CPU usage: 9.00% (B[m
+[33m CPU usage: 10.50% (B[m
+[33m CPU usage: 10.30% (B[m
+[33m CPU usage: 10.20% (B[m
+[33m CPU usage: 10.40% (B[m
+[33m CPU usage: 10.50% (B[m
+[33m CPU usage: 10.20% (B[m
+[33m CPU usage: 10.30% (B[m
+[33m CPU usage: 10.50% (B[m
+[33m CPU usage: 10.60% (B[m
 
-[32m[+] Test #70 Succeeded: Average CPU usage is 33.43% for 50 philos(B[m 
+[32m[+] Test #70 Succeeded: Average CPU usage is 10.25% for 50 philos(B[m 
 
 
 		[32m[============[ Running Philo for 40 Seconds ]==============](B[m
@@ -1304,7 +1303,11 @@
 [33...][33m 33sec - still alive (B[m
 [34...][33m 34sec - still alive (B[m
 [35...][33m 35sec - still alive (B[m
-[36...][31m[+] Test #27 Failed with 200 410 200 200, the philosopher should stay alive for at least 40 seconds(B[m
+[36...][33m 36sec - still alive (B[m
+[37...][33m 37sec - still alive (B[m
+[38...][33m 38sec - still alive (B[m
+[39...][33m 39sec - still alive (B[m
+[32m[+] Test #27 Succeeded with 200 410 200 200 (B[m
 
 		[32m[============[ Testing Invalid Arguments ]==============](B[m
 
@@ -1329,7 +1332,7 @@
 [32m[+] Test #36 Program ran successfully without errors or output with 5 200 200 200 2147483649
 
 [33m[~] Test #37 Program output multiple lines with 5 200 200 2147483649 5, you should decide if this case is handled well. Here are the last 2 lines:
- 1 4 is eating
+ 0 4 is eating
 200 1 died (B[m
 
 

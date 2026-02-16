@@ -1,0 +1,633 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_bonus.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/12 16:23:38 by demane            #+#    #+#             */
+/*   Updated: 2026/02/13 19:42:10 by demane           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../includes/parsing_bonus.h"
+
+static int	fill_rules(t_rules *rules, int ac, char **av)
+{
+	rules->nb_philo = ft_atoi(av[1]);
+	if (rules->nb_philo < 0)
+		return (1);
+	rules->t_die = ft_atol(av[2]);
+	if (rules->t_die < 0)
+		return (1);
+	rules->t_eat = ft_atol(av[3]);
+	if (rules->t_eat < 0)
+		return (1);
+	rules->t_sleep = ft_atol(av[4]);
+	if (rules->t_sleep < 0)
+		return (1);
+	if (ac == 6)
+	{
+		rules->nb_meals = ft_atoi(av[5]);
+		if (rules->nb_meals < 0)
+			return (1);
+	}
+	else
+		rules->nb_meals = -1;
+	rules->is_dead = 0;
+	return (0);
+}
+
+t_rules	*ft_parse_arg(int ac, char **av)
+{
+	t_rules	*rules;
+
+	if (ac != 5 && ac != 6)
+		return (NULL);
+	rules = malloc(sizeof(t_rules));
+	if (!rules)
+		return (NULL);
+	if (fill_rules(rules, ac, av))
+	{
+		ft_free_bonus((void **)&rules);
+		return (NULL);
+	}
+	return (rules);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_atoil.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/06 13:47:03 by demane            #+#    #+#             */
+/*   Updated: 2026/02/16 11:37:35 by demane           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../includes/parsing_bonus.h"
+
+int	ft_isdigit(char c)
+{
+	if (c < '0' || c > '9')
+		return (0);
+	return (1);
+}
+
+int	ft_atoi(char *str)
+{
+	int	i;
+	int	mul;
+	int	result;
+	int	digit;
+
+	i = 0;
+	mul = -1;
+	result = 0;
+	while (str[i] == 32 || (str[i] >= '\t' && str[i] <= '\r'))
+		i++;
+	if (str[i] && (str[i] == '+' || str[i] == '-'))
+		if (str[i++] == '-')
+			mul = mul * (-1);
+	while (str[i] && ft_isdigit(str[i]))
+	{
+		digit = str[i] - 48;
+		if (result < (INT_MIN + digit) / 10)
+			return (-1);
+		result = result * 10 - (str[i++] - 48);
+	}
+	return (result * mul);
+}
+
+long	ft_atol(char *str)
+{
+	int		i;
+	int		mul;
+	long	result;
+	int		digit;
+
+	i = 0;
+	mul = -1;
+	result = 0;
+	while (str[i] == 32 || (str[i] >= '\t' && str[i] <= '\r'))
+		i++;
+	if (str[i] && (str[i] == '+' || str[i] == '-'))
+		if (str[i++] == '-')
+			mul = mul * (-1);
+	while (str[i] && ft_isdigit(str[i]))
+	{
+		digit = str[i] - 48;
+		if (result < (LONG_MIN + digit) / 10)
+			return (-1);
+		result = result * 10 - (str[i++] - 48);
+	}
+	return (result * mul);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_bonus.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/10 18:26:26 by demane            #+#    #+#             */
+/*   Updated: 2026/02/16 18:02:40 by demane           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../includes/utils_bonus.h"
+
+void	ft_free_bonus(void **addr_ptr)
+{
+	if (addr_ptr && *addr_ptr)
+	{
+		free(*addr_ptr);
+		*addr_ptr = NULL;
+	}
+}
+
+void	ft_safe_print_bonus(t_philo *p, char *msg)
+{
+	long	time;
+
+	sem_wait(p->rules->print);
+	time = ft_gettime_bonus() - p->rules->start_time;
+	printf("%ld %d %s\n", time, p->id, msg);
+	sem_post(p->rules->print);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   time_bonus.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/10 18:27:44 by demane            #+#    #+#             */
+/*   Updated: 2026/02/15 13:38:35 by demane           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../includes/utils_bonus.h"
+
+long	ft_gettime_bonus(void)
+{
+	t_timeval	tv;
+	long		time;
+
+	if (gettimeofday(&tv, NULL) == -1)
+		return (-1);
+	time = tv.tv_sec * 1000 + tv.tv_usec / 1000;
+	return (time);
+}
+
+void	ft_usleep_bonus(long t_ms, t_philo *p)
+{
+	long	start;
+
+	(void)p;
+	start = ft_gettime_bonus();
+	while (1)
+	{
+		if (ft_gettime_bonus() - start >= t_ms)
+			break ;
+		usleep(1000);
+	}
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   watcher.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/13 12:47:06 by demane            #+#    #+#             */
+/*   Updated: 2026/02/16 18:03:45 by demane           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../includes/watcher.h"
+
+void	*ft_watcher(void *arg)
+{
+	t_philo	*p;
+	long	current_time;
+
+	p = (t_philo *)arg;
+	while (1)
+	{
+		current_time = ft_gettime_bonus();
+		if (p->is_full)
+			exit(0);
+		if (current_time - p->last_meal >= p->rules->t_die)
+		{
+			sem_wait(p->rules->death);
+			p->rules->is_dead = 1;
+			sem_post(p->rules->death);
+			sem_wait(p->rules->print);
+			printf("%ld %d died\n", current_time - p->rules->start_time, p->id);
+			sem_post(p->rules->print);
+			exit(1);
+		}
+		usleep(1000);
+	}
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_bonus.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/10 18:20:51 by demane            #+#    #+#             */
+/*   Updated: 2026/02/16 18:03:21 by demane           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../includes/init_bonus.h"
+
+static void	ft_clear_sem(t_rules *rules)
+{
+	sem_close(rules->print);
+	sem_close(rules->death);
+	sem_close(rules->meal);
+	sem_unlink("/print");
+	sem_unlink("/dead");
+	sem_unlink("/meal");
+}
+
+int	ft_init_rules_sem(t_rules *rules)
+{
+	sem_unlink("/print");
+	sem_unlink("/dead");
+	sem_unlink("/meal");
+	sem_unlink("/forks");
+	rules->print = sem_open("/print", O_CREAT, 0644, 1);
+	if (rules->print == SEM_FAILED)
+		return (1);
+	rules->death = sem_open("/dead", O_CREAT, 0644, 1);
+	if (rules->death == SEM_FAILED)
+	{
+		sem_close(rules->print);
+		sem_unlink("/print");
+		return (1);
+	}
+	rules->meal = sem_open("/meal", O_CREAT, 0644, 1);
+	if (rules->meal == SEM_FAILED)
+	{
+		sem_close(rules->print);
+		sem_close(rules->death);
+		sem_unlink("/print");
+		sem_unlink("/dead");
+		return (1);
+	}
+	rules->forks = sem_open("/forks", O_CREAT, 0644, rules->nb_philo);
+	if (rules->forks == SEM_FAILED)
+		return (ft_clear_sem(rules), 1);
+	return (0);
+}
+
+t_philo	*ft_init_philos_bonus(t_rules *rules)
+{
+	int		i;
+	t_philo	*philos;
+
+	i = -1;
+	philos = (t_philo *)malloc(sizeof(t_philo) * rules->nb_philo);
+	if (!philos)
+		return (NULL);
+	while (++i < rules->nb_philo)
+	{
+		philos[i].id = i + 1;
+		philos[i].meals_eaten = 0;
+		philos[i].rules = rules;
+		philos[i].is_full = 0;
+	}
+	return (philos);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   routine_bonus.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/12 12:54:12 by demane            #+#    #+#             */
+/*   Updated: 2026/02/15 14:23:56 by demane           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   routine_bonus.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/12 12:54:12 by demane            #+#    #+#             */
+/*   Updated: 2026/02/15 14:30:00 by demane           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../includes/routine_bonus.h"
+
+static void	ft_routine_gap_bonus(t_philo *p)
+{
+	if (p->rules->nb_philo % 2 == 0)
+	{
+		if (p->id % 2 != 0)
+			usleep(1000);
+	}
+	else
+	{
+		if (p->id == p->rules->nb_philo)
+			usleep(p->rules->t_eat * 1000);
+		else if (p->id % 2 != 0)
+			usleep(1000);
+	}
+}
+
+static void	ft_process_routine_bonus(t_philo *p)
+{
+	/* IMPROVED: Handle single philosopher case early */
+	if (p->rules->nb_philo == 1)
+	{
+		sem_wait(p->rules->forks);
+		ft_safe_print_bonus(p, "has taken a fork");
+		/* Wait for death - watcher will handle it */
+		while (1)
+			usleep(1000);
+	}
+	while (1)
+	{
+		sem_wait(p->rules->death);
+		if (p->rules->is_dead)
+		{
+			sem_post(p->rules->death);
+			break ;
+		}
+		sem_post(p->rules->death);
+		sem_wait(p->rules->meal);
+		if (p->is_full)
+		{
+			sem_post(p->rules->meal);
+			break ;
+		}
+		sem_post(p->rules->meal);
+		ft_take_forks_bonus(p);
+		ft_eat_bonus(p);
+		ft_put_forks_bonus(p);
+		ft_sleep_philo_bonus(p);
+		ft_think_bonus(p);
+	}
+	exit(0);
+}
+
+void	*ft_routine_bonus(void *arg)
+{
+	t_philo	*p;
+
+	p = (t_philo *)arg;
+	ft_routine_gap_bonus(p);
+	ft_process_routine_bonus(p);
+	return (NULL);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo_bonus.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/12 16:57:19 by demane            #+#    #+#             */
+/*   Updated: 2026/02/15 14:38:43 by demane           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../includes/routine_bonus.h"
+
+void	ft_process_philo_bonus(t_philo *p)
+{
+	sem_wait(p->rules->forks);
+	ft_safe_print_bonus(p, "has taken a fork");
+	sem_wait(p->rules->forks);
+	ft_safe_print_bonus(p, "has taken a fork");
+}
+
+void	ft_sleep_philo_bonus(t_philo *p)
+{
+	sem_wait(p->rules->death);
+	if (p->rules->is_dead)
+	{
+		sem_post(p->rules->death);
+		return ;
+	}
+	sem_post(p->rules->death);
+	ft_safe_print_bonus(p, "is sleeping");
+	ft_usleep_bonus(p->rules->t_sleep, p);
+}
+
+void	ft_think_bonus(t_philo *p)
+{
+	long	think_time;
+	long	time_margin;
+
+	sem_wait(p->rules->death);
+	if (p->rules->is_dead)
+	{
+		sem_post(p->rules->death);
+		return ;
+	}
+	sem_post(p->rules->death);
+	ft_safe_print_bonus(p, "is thinking");
+	if (p->rules->nb_philo % 2 != 0)
+	{
+		time_margin = p->rules->t_die - (p->rules->t_eat + p->rules->t_sleep);
+		if (time_margin > 0)
+			think_time = time_margin / 2;
+		else
+			think_time = 0;
+		if (think_time > 0)
+			ft_usleep_bonus(think_time, p);
+	}
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   forks_bonus.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/12 16:55:35 by demane            #+#    #+#             */
+/*   Updated: 2026/02/15 14:38:07 by demane           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../includes/routine_bonus.h"
+
+void	ft_take_forks_bonus(t_philo *p)
+{
+	/* SIMPLIFIED: Single philosopher case now handled in routine_bonus.c */
+	ft_process_philo_bonus(p);
+}
+
+void	ft_put_forks_bonus(t_philo *p)
+{
+	sem_post(p->rules->forks);
+	sem_post(p->rules->forks);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   eat_bonus.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/12 17:33:19 by demane            #+#    #+#             */
+/*   Updated: 2026/02/15 14:23:38 by demane           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../includes/routine_bonus.h"
+
+void	ft_eat_bonus(t_philo *p)
+{
+	/* Print eating message */
+	ft_safe_print_bonus(p, "is eating");
+	/* IMPROVED: Update last_meal BEFORE eating to avoid death during eating */
+	sem_wait(p->rules->meal);
+	p->last_meal = ft_gettime_bonus();
+	p->meals_eaten++;
+	if (p->rules->nb_meals > 0 && p->meals_eaten >= p->rules->nb_meals)
+		p->is_full = 1;
+	sem_post(p->rules->meal);
+	/* Sleep for eating time */
+	ft_usleep_bonus(p->rules->t_eat, p);
+}
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main_bonus.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/10 17:54:15 by demane            #+#    #+#             */
+/*   Updated: 2026/02/16 14:39:21 by demane           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../includes/philosophers_bonus.h"
+
+int	ft_is_include(pid_t *pids, pid_t pid, int n)
+{
+	int	i;
+
+	i = 0;
+	while (i < n)
+	{
+		if (pids[i] == pid)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+static int	ft_start_simulation_bonus(t_philo *philos)
+{
+	int			i;
+	pthread_t	thread;
+
+	i = -1;
+	while (++i < philos[0].rules->nb_philo)
+	{
+		philos[i].last_meal = philos->rules->start_time;
+		philos[i].pid = fork();
+		if (philos[i].pid == -1)
+			return (i);
+		if (philos[i].pid == 0)
+		{
+			pthread_create(&thread, NULL, ft_watcher, &philos[i]);
+			pthread_detach(thread);
+			ft_routine_bonus(&philos[i]);
+			exit(0);
+		}
+	}
+	return (0);
+}
+
+static int	ft_wait_all_philos(t_philo *p)
+{
+	int	status;
+	int	i;
+	int	finished;
+
+	finished = 0;
+	while (finished < p->rules->nb_philo)
+	{
+		wait(&status);
+		if (WIFEXITED(status))
+		{
+			if (WEXITSTATUS(status) != 0)
+			{
+				i = -1;
+				while (++i < p->rules->nb_philo)
+					kill(p[i].pid, SIGTERM);
+				while (wait(&status) > 0)
+					;
+				return (0);
+			}
+		}
+		finished++;
+	}
+	return (0);
+}
+
+static void	ft_wait_all_philos_err(int n, t_philo *p)
+{
+	int	i;
+
+	i = -1;
+	while (++i < n)
+		kill(p[i].pid, SIGTERM);
+}
+
+void	ft_clean_bonus(t_rules *r, t_philo *p)
+{
+	sem_close(r->print);
+	sem_close(r->death);
+	sem_close(r->meal);
+	sem_close(r->forks);
+	sem_unlink("/print");
+	sem_unlink("/dead");
+	sem_unlink("/meal");
+	sem_unlink("/forks");
+	ft_free_bonus((void **)&r);
+	ft_free_bonus((void **)&p);
+}
+
+int	main(int ac, char **av)
+{
+	t_rules	*rules;
+	t_philo	*philos;
+	int		n;
+
+	rules = ft_parse_arg(ac, av);
+	if (!rules)
+		return (1);
+	if (ft_init_rules_sem(rules))
+		return (ft_free_bonus((void **)&rules), 1);
+	philos = ft_init_philos_bonus(rules);
+	if (!philos)
+		return (ft_free_bonus((void **)&rules), 1);
+	rules->start_time = ft_gettime_bonus();
+	n = ft_start_simulation_bonus(philos);
+	if (!n)
+	{
+		if (ft_wait_all_philos(philos))
+			ft_wait_all_philos_err(rules->nb_philo, philos);
+	}
+	else
+		ft_wait_all_philos_err(n, philos);
+	ft_clean_bonus(rules, philos);
+	return (0);
+}
