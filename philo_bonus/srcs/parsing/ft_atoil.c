@@ -6,7 +6,7 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 13:47:03 by demane            #+#    #+#             */
-/*   Updated: 2026/02/16 11:37:35 by demane           ###   ########.fr       */
+/*   Updated: 2026/02/18 10:07:06 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ int	ft_atoi(char *str)
 			return (-1);
 		result = result * 10 - (str[i++] - 48);
 	}
+	if (str[i] != '\0')
+		return (-1);
 	return (result * mul);
 }
 
@@ -66,5 +68,7 @@ long	ft_atol(char *str)
 			return (-1);
 		result = result * 10 - (str[i++] - 48);
 	}
+	if (str[i] != '\0')
+		return (-1);
 	return (result * mul);
 }

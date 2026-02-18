@@ -6,7 +6,7 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 17:55:26 by demane            #+#    #+#             */
-/*   Updated: 2026/02/15 14:17:28 by demane           ###   ########.fr       */
+/*   Updated: 2026/02/18 11:15:16 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ typedef struct s_rules
 	long				t_eat;
 	long				t_sleep;
 	int					nb_meals;
-	int					is_dead;
 	long				start_time;
 	sem_t				*print;
 	sem_t				*death;
@@ -49,6 +48,7 @@ typedef struct s_philo
 	int					is_full;
 	sem_t				*meal_p;
 	pid_t				pid;
+	int					should_exit;
 }						t_philo;
 
 #endif

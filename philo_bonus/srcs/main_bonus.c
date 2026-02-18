@@ -6,7 +6,7 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 17:54:15 by demane            #+#    #+#             */
-/*   Updated: 2026/02/16 14:39:21 by demane           ###   ########.fr       */
+/*   Updated: 2026/02/18 11:45:49 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ int	ft_is_include(pid_t *pids, pid_t pid, int n)
 
 static int	ft_start_simulation_bonus(t_philo *philos)
 {
-	int			i;
-	pthread_t	thread;
+	int	i;
+	int	status;
 
 	i = -1;
 	while (++i < philos[0].rules->nb_philo)
@@ -40,15 +40,14 @@ static int	ft_start_simulation_bonus(t_philo *philos)
 			return (i);
 		if (philos[i].pid == 0)
 		{
-			pthread_create(&thread, NULL, ft_watcher, &philos[i]);
-			pthread_detach(thread);
-			ft_routine_bonus(&philos[i]);
-			exit(0);
+			status = ft_routine_bonus(&philos[i]);
+			ft_free_bonus((void **)&philos[i].rules);
+			ft_free_bonus((void **)&philos);
+			exit(status);
 		}
 	}
 	return (0);
 }
-
 static int	ft_wait_all_philos(t_philo *p)
 {
 	int	status;
@@ -65,7 +64,7 @@ static int	ft_wait_all_philos(t_philo *p)
 			{
 				i = -1;
 				while (++i < p->rules->nb_philo)
-					kill(p[i].pid, SIGTERM);
+					kill(p[i].pid, SIGKILL);
 				while (wait(&status) > 0)
 					;
 				return (0);
@@ -82,7 +81,7 @@ static void	ft_wait_all_philos_err(int n, t_philo *p)
 
 	i = -1;
 	while (++i < n)
-		kill(p[i].pid, SIGTERM);
+		kill(p[i].pid, SIGKILL);
 }
 
 void	ft_clean_bonus(t_rules *r, t_philo *p)

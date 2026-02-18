@@ -6,7 +6,7 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/12 16:57:19 by demane            #+#    #+#             */
-/*   Updated: 2026/02/15 14:38:43 by demane           ###   ########.fr       */
+/*   Updated: 2026/02/18 11:29:48 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,30 @@
 void	ft_process_philo_bonus(t_philo *p)
 {
 	sem_wait(p->rules->forks);
+	sem_wait(p->rules->meal);
+	if (p->should_exit)
+	{
+		sem_post(p->rules->meal);
+		sem_post(p->rules->forks);
+		return ;
+	}
+	sem_post(p->rules->meal);
 	ft_safe_print_bonus(p, "has taken a fork");
 	sem_wait(p->rules->forks);
+	sem_wait(p->rules->meal);
+	if (p->should_exit)
+	{
+		sem_post(p->rules->meal);
+		sem_post(p->rules->forks);
+		sem_post(p->rules->forks);
+		return ;
+	}
+	sem_post(p->rules->meal);
 	ft_safe_print_bonus(p, "has taken a fork");
 }
 
 void	ft_sleep_philo_bonus(t_philo *p)
 {
-	sem_wait(p->rules->death);
-	if (p->rules->is_dead)
-	{
-		sem_post(p->rules->death);
-		return ;
-	}
-	sem_post(p->rules->death);
 	ft_safe_print_bonus(p, "is sleeping");
 	ft_usleep_bonus(p->rules->t_sleep, p);
 }
@@ -38,13 +48,6 @@ void	ft_think_bonus(t_philo *p)
 	long	think_time;
 	long	time_margin;
 
-	sem_wait(p->rules->death);
-	if (p->rules->is_dead)
-	{
-		sem_post(p->rules->death);
-		return ;
-	}
-	sem_post(p->rules->death);
 	ft_safe_print_bonus(p, "is thinking");
 	if (p->rules->nb_philo % 2 != 0)
 	{

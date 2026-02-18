@@ -6,7 +6,7 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/10 17:58:29 by demane            #+#    #+#             */
-/*   Updated: 2026/02/13 19:48:33 by demane           ###   ########.fr       */
+/*   Updated: 2026/02/18 11:41:33 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 
 # include "base_bonus.h"
 # include "utils_bonus.h"
+# include "watcher.h"
 
-void	*ft_routine_bonus(void *arg);
+int		ft_routine_bonus(void *arg);
 void	ft_take_forks_bonus(t_philo *p);
 void	ft_process_philo_one_bonus(t_philo *p);
 void	ft_process_philo_bonus(t_philo *p);
