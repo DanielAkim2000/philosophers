@@ -6,7 +6,7 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/08 00:35:22 by demane            #+#    #+#             */
-/*   Updated: 2026/02/16 15:11:24 by demane           ###   ########.fr       */
+/*   Updated: 2026/02/19 12:39:50 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	ft_check_death(t_philo *philos, int i, t_rules *rules)
 
 	now = ft_gettime();
 	pthread_mutex_lock(&rules->meal);
-	if (now - philos[i].last_meal > rules->t_die)
+	if (now - philos[i].last_meal >= rules->t_die)
 	{
 		pthread_mutex_lock(&rules->death);
 		if (!rules->is_dead)

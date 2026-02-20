@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_bonus.c                                    :+:      :+:    :+:   */
+/*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/12 16:23:38 by demane            #+#    #+#             */
-/*   Updated: 2026/02/18 10:06:40 by demane           ###   ########.fr       */
+/*   Created: 2026/02/06 11:32:14 by demane            #+#    #+#             */
+/*   Updated: 2026/02/20 18:55:27 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static int	fill_rules(t_rules *rules, int ac, char **av)
 	}
 	else
 		rules->nb_meals = -1;
+	rules->is_dead = 0;
 	return (0);
 }
 
@@ -48,7 +49,7 @@ t_rules	*ft_parse_arg(int ac, char **av)
 		return (NULL);
 	if (fill_rules(rules, ac, av))
 	{
-		ft_free_bonus((void **)&rules);
+		ft_free((void **)&rules);
 		return (NULL);
 	}
 	return (rules);
