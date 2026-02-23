@@ -6,7 +6,7 @@
 #    By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/02 18:07:17 by demane            #+#    #+#              #
-#    Updated: 2026/02/16 11:32:19 by demane           ###   ########.fr        #
+#    Updated: 2026/02/23 18:46:41 by demane           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,6 @@ RESET   = \033[0m
 GREEN   = \033[32m
 CYAN    = \033[36m
 BOLD  = \033[1m
-
 
 BAR_WIDTH = 20
 FILE_WIDTH = 20

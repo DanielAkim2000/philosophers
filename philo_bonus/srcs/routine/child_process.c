@@ -6,7 +6,7 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 17:20:25 by demane            #+#    #+#             */
-/*   Updated: 2026/02/23 05:53:30 by demane           ###   ########.fr       */
+/*   Updated: 2026/02/23 14:01:03 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ static void	ft_setup_dead_name(t_philo *p)
 	p->dead_name[3] = 'a';
 	p->dead_name[4] = 'd';
 	p->dead_name[5] = '_';
-	p->meal_name[6] = '0' + (p->id / 100);
-	p->meal_name[7] = '0' + ((p->id / 10) % 10);
-	p->meal_name[8] = '0' + (p->id % 10);
-	p->meal_name[9] = '\0';
+	p->dead_name[6] = '0' + (p->id / 100);
+	p->dead_name[7] = '0' + ((p->id / 10) % 10);
+	p->dead_name[8] = '0' + (p->id % 10);
+	p->dead_name[9] = '\0';
 }
 
 static void	ft_init_child(t_philo *p, t_rules *rules, int i)
@@ -52,6 +52,8 @@ static void	ft_run_child(t_philo *p)
 	sem_wait(p->dead_sem);
 	sem_wait(p->meal_sem);
 	code = p->is_dead;
+	if (!p->is_dead)
+		p->is_dead = 1;
 	sem_post(p->meal_sem);
 	sem_post(p->rules->forks);
 	sem_post(p->rules->forks);

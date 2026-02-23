@@ -1,46 +1,87 @@
-CC			= cc
-CFLAGS		= -Wall -Wextra -Werror -I.
-NAME		= philo_bonus
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2026/02/02 18:07:17 by demane            #+#    #+#              #
+#    Updated: 2026/02/23 16:41:54 by demane           ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
-SRC_DIR		= srcs
-OBJ_DIR		= objs
+NAME = philo_bonus
+CC= @cc
+CFLAGS = -Wall -Wextra -Werror -Iincludes
+RM= @rm -rf
+DIR_SRCS = srcs
+DIR_OBJS = objs
+DIR_PARSING = parsing
+DIR_UTILS = utils
+DIR_MONITOR = monitor
+DIR_INIT = init
+DIR_ROUTINE = routine
 
-SRCS		= $(SRC_DIR)/main.c \
-			$(SRC_DIR)/parsing/ft_atoi.c \
-			$(SRC_DIR)/utils/time.c \
-			$(SRC_DIR)/utils/utils.c \
-			$(SRC_DIR)/init/init_rules.c \
-			$(SRC_DIR)/init/init_sems.c \
-			$(SRC_DIR)/monitor/monitor.c \
-			$(SRC_DIR)/routine/think_time.c \
-			$(SRC_DIR)/routine/print_action.c \
-			$(SRC_DIR)/routine/routine.c \
-			$(SRC_DIR)/routine/child_process.c \
-			$(SRC_DIR)/routine/setup_meal.c \
-			$(SRC_DIR)/routine/eat_routine.c \
-			$(SRC_DIR)/routine/sleep_think.c \
-			$(SRC_DIR)/routine/cleanup_child.c \
-			$(SRC_DIR)/routine/cleanup_parent.c \
-			$(SRC_DIR)/routine/fork_loop.c \
-			$(SRC_DIR)/routine/wait_loop.c \
-			$(SRC_DIR)/routine/kill_loop.c
+FILES_PARSING = ft_atoi.c
+FILES_UTILS = utils.c time.c
+FILES_MAIN = main.c
+FILES_MONITOR = monitor.c
+FILES_INIT = init_rules.c init_sems.c
+FILES_ROUTINE = routine.c child_process.c setup_meal.c eat_routine.c \
+				sleep_think.c think_time.c print_action.c cleanup_child.c \
+				cleanup_parent.c fork_loop.c wait_loop.c kill_loop.c
 
-OBJS		= $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
+SRCS_PARSING = $(addprefix $(DIR_SRCS)/$(DIR_PARSING)/, $(FILES_PARSING))
+SRCS_UTILS = $(addprefix $(DIR_SRCS)/$(DIR_UTILS)/, $(FILES_UTILS))
+SRCS_MONITOR = $(addprefix $(DIR_SRCS)/$(DIR_MONITOR)/, $(FILES_MONITOR))
+SRCS_ROUTINE = $(addprefix $(DIR_SRCS)/$(DIR_ROUTINE)/, $(FILES_ROUTINE))
+SRCS_INIT = $(addprefix $(DIR_SRCS)/$(DIR_INIT)/, $(FILES_INIT))
+SRCS_MAIN = $(addprefix $(DIR_SRCS)/, $(FILES_MAIN))
+
+SRCS = $(SRCS_PARSING) $(SRCS_UTILS) $(SRCS_MONITOR) $(SRCS_INIT) $(SRCS_ROUTINE) $(SRCS_MAIN)
+
+OBJS = $(SRCS:$(DIR_SRCS)/%.c=$(DIR_OBJS)/%.o)
+
+RESET   = \033[0m
+GREEN   = \033[32m
+CYAN    = \033[36m
+BOLD  = \033[1m
+
+BAR_WIDTH = 20
+FILE_WIDTH = 20
+TOTAL     = $(words $(SRCS))
+COUNT     = 0
+
+define progress_bar
+	@$(eval COUNT=$(shell echo $$(( $(COUNT) + 1 ))))
+	@PERCENT=$$(($(COUNT) * 100 / $(TOTAL))); \
+	FILLED=$$(($(COUNT) * $(BAR_WIDTH) / $(TOTAL))); \
+	EMPTY=$$(($(BAR_WIDTH) - $$FILLED)); \
+	FILE="$<"; \
+	SHORT_FILE=$$(printf "%-*.*s" $(FILE_WIDTH) $(FILE_WIDTH) "$$FILE"); \
+	printf "\r\033[K$(BOLD)$(CYAN)[BUILD] [$(NAME)]$(RESET) %s $(CYAN)[" "$$SHORT_FILE"; \
+	printf "%0.s=" $$(seq 1 $$FILLED); \
+	printf "%0.s " $$(seq 1 $$EMPTY); \
+	printf "] %3d%%$(RESET)" $$PERCENT
+endef
+
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
-	$(CC) $(CFLAGS) -pthread -o $(NAME) $(OBJS)
+$(NAME) : $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+	@printf "\n$(GREEN)✔ Build PHILOSOPHERS BONUS terminé$(RESET)\n"
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+$(DIR_OBJS)/%.o : $(DIR_SRCS)/%.c
 	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
+	$(progress_bar)
 
 clean:
-	rm -rf $(OBJ_DIR)
+	$(RM) $(DIR_OBJS)
 
 fclean: clean
-	rm -f $(NAME)
+	$(RM) $(NAME)
 
 re: fclean all
 
