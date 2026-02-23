@@ -6,7 +6,7 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 18:07:42 by demane            #+#    #+#             */
-/*   Updated: 2026/02/16 18:26:39 by demane           ###   ########.fr       */
+/*   Updated: 2026/02/23 05:26:27 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,17 +31,23 @@ static int	ft_start_simulation(t_philo *philos)
 	return (0);
 }
 
-void	ft_join_thread(t_rules *rules, t_philo *philos)
+static void	ft_join_threads(t_rules *rules, t_philo *philos, int n)
 {
 	int	i;
 
+	if (n == -1)
+	{
+		pthread_join(rules->monitor, NULL);
+		return ;
+	}
 	i = -1;
-	while (++i < rules->nb_philo)
+	while (++i < n)
 		pthread_join(philos[i].thread, NULL);
-	pthread_join(philos->rules->monitor, NULL);
+	if (n == rules->nb_philo)
+		pthread_join(rules->monitor, NULL);
 }
 
-void	ft_destroy(t_rules *rules, pthread_mutex_t *forks)
+static void	ft_destroy(t_rules *rules, pthread_mutex_t *forks)
 {
 	int	i;
 
@@ -86,16 +92,8 @@ int	main(int ac, char **av)
 	rules->start_time = ft_gettime();
 	n = ft_start_simulation(philos);
 	if (!n)
-		ft_join_thread(rules, philos);
+		ft_join_threads(rules, philos, rules->nb_philo);
 	else
-	{
-		if (n == -1)
-			pthread_join(rules->monitor, NULL);
-		else
-		{
-			for (int i = 0; i < n; i++)
-				pthread_join(philos[i].thread, NULL);
-		}
-	}
+		ft_join_threads(rules, philos, n);
 	ft_clean(rules, forks, philos);
 }
