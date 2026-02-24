@@ -6,20 +6,27 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 17:20:25 by demane            #+#    #+#             */
-/*   Updated: 2026/02/23 00:42:01 by demane           ###   ########.fr       */
+/*   Updated: 2026/02/24 00:07:42 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/routine_bonus.h"
 #include "../../includes/utils_bonus.h"
 
+static void	ft_routine_gap(t_philo *p)
+{
+	if (p->rules->nb_philo % 2 != 0 && p->id == p->rules->nb_philo)
+		ft_usleep(p->rules->t_eat * 2, p);
+	else if (p->id % 2 == 0)
+		ft_usleep(p->rules->t_eat, p);
+}
+
 void	*ft_routine(void *arg)
 {
 	t_philo	*p;
 
 	p = (t_philo *)arg;
-	if (p->id % 2 == 0)
-		ft_sleep(p->rules->t_eat);
+	ft_routine_gap(p);
 	while (1)
 	{
 		ft_eat_routine(p);

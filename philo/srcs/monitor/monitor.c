@@ -6,7 +6,7 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/08 00:35:22 by demane            #+#    #+#             */
-/*   Updated: 2026/02/19 12:39:50 by demane           ###   ########.fr       */
+/*   Updated: 2026/02/23 22:37:22 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,10 @@ static int	ft_check_death(t_philo *philos, int i, t_rules *rules)
 			rules->is_dead = 1;
 			pthread_mutex_unlock(&rules->death);
 			pthread_mutex_lock(&rules->print);
-			printf("%ld %d died\n", now - philos[i].rules->start_time,
-				philos[i].id);
+			ft_putnbr_fd(now - philos[i].rules->start_time, 1);
+			write(1, " ", 1);
+			ft_putnbr_fd((long)philos[i].id, 1);
+			write(1, " died\n", 6);
 			pthread_mutex_unlock(&rules->print);
 		}
 		else

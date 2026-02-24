@@ -6,7 +6,7 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/06 11:32:14 by demane            #+#    #+#             */
-/*   Updated: 2026/02/11 10:19:44 by demane           ###   ########.fr       */
+/*   Updated: 2026/02/23 23:02:30 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	fill_rules(t_rules *rules, int ac, char **av)
 {
 	rules->nb_philo = ft_atoi(av[1]);
-	if (rules->nb_philo < 0)
+	if (rules->nb_philo <= 0)
 		return (1);
 	rules->t_die = ft_atol(av[2]);
 	if (rules->t_die < 0)

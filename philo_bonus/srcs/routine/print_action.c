@@ -6,7 +6,7 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 17:20:25 by demane            #+#    #+#             */
-/*   Updated: 2026/02/23 16:03:56 by demane           ###   ########.fr       */
+/*   Updated: 2026/02/23 22:37:22 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,11 @@ void	ft_print_action(t_philo *p, char *msg)
 	}
 	sem_post(p->meal_sem);
 	sem_wait(p->rules->print);
-	printf("%ld %d %s\n", ft_get_time() - p->rules->start_time, p->id, msg);
-	fflush(stdout);
+	ft_putnbr_fd(ft_get_time() - p->rules->start_time, 1);
+	write(1, " ", 1);
+	ft_putnbr_fd((long)p->id, 1);
+	write(1, " ", 1);
+	write(1, msg, ft_strlen(msg));
+	write(1, "\n", 1);
 	sem_post(p->rules->print);
 }

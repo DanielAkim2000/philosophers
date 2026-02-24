@@ -6,7 +6,7 @@
 /*   By: demane <emanedanielakim@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/20 17:20:25 by demane            #+#    #+#             */
-/*   Updated: 2026/02/23 05:26:27 by demane           ###   ########.fr       */
+/*   Updated: 2026/02/23 22:37:22 by demane           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,14 @@ static int	ft_check_death(t_philo *p)
 		p->is_dead = 1;
 		sem_post(p->meal_sem);
 		sem_wait(p->rules->print);
-		printf("%ld %d died\n",
-			ft_get_time() - p->rules->start_time, p->id);
+		ft_putnbr_fd(ft_get_time() - p->rules->start_time, 1);
+		write(1, " ", 1);
+		ft_putnbr_fd((long)p->id, 1);
+		write(1, " died\n", 6);
 		sem_post(p->dead_sem);
 		return (1);
 	}
-	if (p->rules->nb_meals != -1
-		&& p->meals_eaten >= p->rules->nb_meals)
+	if (p->rules->nb_meals != -1 && p->meals_eaten >= p->rules->nb_meals)
 	{
 		sem_post(p->meal_sem);
 		sem_post(p->dead_sem);
